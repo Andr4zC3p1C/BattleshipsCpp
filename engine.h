@@ -1,5 +1,5 @@
-#ifndef ENGINE
-#define ENGINE
+#ifndef ENGINE_H
+#define ENGINE_H
 
 #include <time.h>
 #include <string.h>
@@ -14,8 +14,7 @@ class Engine
 public:
     int init(const std::string windowTitle, const int width, const int height); // It has return type int, so that if an error occurs while loading things, we can report
     void run();
-    void windowEventsUpdate();
-
+    
 private:
     // Game variables
     bool m_running = true;
@@ -28,6 +27,7 @@ private:
     Renderer m_renderer;
 
     void update();
+	void windowEventsUpdate();
     void render();
 };
 

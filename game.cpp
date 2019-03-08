@@ -1,15 +1,23 @@
 #include <time.h>
 #include <stdlib.h>
+#include <iostream>
 
 #include "game.h"
 
-int Game::init(int gridWidth, int gridHeight, int numberOfInitialShips, int shipLength, int numberOfInitialShots)
+int Game::init(int gridWidth, int gridHeight, int numberOfInitialShips, int shipLength, int numberOfInitialShots, Renderer *renderer)
 {
-    // Initializes the random number generator of the standard C library STD
+	// Loading all the textures for the renderer; file names hardcoded into the source code directly here in function calls: (FOR NOW JUST RANDOM TEST TEXTURES THAT WONT WORK CUZ THEY AINT THERE)
+	/*
+	renderer->loadTextureFromFile("sea");
+	renderer->loadTextureFromFile("splah");
+	renderer->loadTextureFromFile("explosion");
+	*/
+
+    // Initializes the random number generator of the standard C library STD; we use time(0), so that each time the game is ran, the seed for the generator is different, since time is different
     srand(time(0));
 
     // Initializes the grid
-    m_grid = (unsigned char*)malloc(gridWidth*gridHeight*sizeof(unsigned char));
+    m_grid = (int*)malloc(gridWidth*gridHeight*sizeof(unsigned char));
     m_width = gridWidth;
     m_height = gridHeight;
 
@@ -21,6 +29,8 @@ int Game::init(int gridWidth, int gridHeight, int numberOfInitialShips, int ship
     // Loads the textures from files
 
     start();
+
+	return 0;
 }
 
 void Game::update(bool& running, Input& input)
@@ -30,8 +40,15 @@ void Game::update(bool& running, Input& input)
         // Checking if the left mouse button has been clicked
         if(input.isButtonClicked())
         {
-            
+            // Testing if it works like we want: (WORKS PERFECTLY!)
+			std::cout << "Click!\n";
         }
+
+		if (input.isButtonDown())
+		{
+			// To see the difference between click and if we don't implement the click method:
+			std::cout << "Down!\n"; // (You can see tha there are many more Down!-s as there are Click!-s, which would be a problem as too many shots would be fired!)
+		}
     }
     else
     {
@@ -39,7 +56,7 @@ void Game::update(bool& running, Input& input)
     }
 }
 
-void Game::render(sf::RenderWindow *window)
+void Game::render(Renderer *renderer)
 {
     if(!m_gameOver)
     {

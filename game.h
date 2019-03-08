@@ -1,9 +1,11 @@
-#ifndef GAME
-#define GAME
+#ifndef GAME_H
+#define GAME_H
 
 #include <SFML/Graphics.hpp>
-#include <vector.h>
+#include <vector>
 
+#include "renderer.h"
+#include "sprite.h"
 #include "input.h"
 
 // The macros for the values of the grid, just to make the code more readable
@@ -21,9 +23,9 @@
 class Game
 {
 public:
-    int init(int gridWidth, int gridHeight, int numberOfInitialShips, int shipLength, int numberOfInitialShots);
+    int init(int gridWidth, int gridHeight, int numberOfInitialShips, int shipLength, int numberOfInitialShots, Renderer *renderer);
     void update(bool& running, Input& input);
-    void render(sf::RenderWindow *window);
+    void render(Renderer *renderer);
 
 private:
     // The grid data
@@ -39,9 +41,8 @@ private:
     int m_shotsLeft;
     int m_hits;
 
-    // Tempoprary prototype graphics that are SLOW
-    std::vector<sf::Texture> m_textures;
-    sf::Sprite m_currentTile;
+    // Sprites
+
 
     // Functions that are only relavent inside the game class
     void start();

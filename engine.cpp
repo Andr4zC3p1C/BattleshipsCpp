@@ -12,8 +12,7 @@ int Engine::init(const std::string windowTitle, const int width, const int heigh
 
 void Engine::run()
 {
-    timer = clock();
-    while(running && m_window.isOpen())
+    while(m_running && m_window.isOpen())
     {
         // No FPS time management for updating the game is needed as no physics are present, thus the game can run as fast as possible
         update();
@@ -24,29 +23,30 @@ void Engine::run()
 void Engine::windowEventsUpdate()
 {
     sf::Event event;
-    while (window.pollEvent(event))
+    while (m_window.pollEvent(event))
     {
         // Closing the window if needed
         if (event.type == sf::Event::Closed)
-            window.close();
+            m_window.close();
 
         // Processing the input events
-        m_input(event);
+        m_input.update(event);
     }
 }
 
 void Engine::update()
 {
+	windowEventsUpdate();
     m_game.update(m_running, m_input);
 }
 
 void Engine::render()
 {
     // Setting up the rendering queue
-    m_game.render();
+    m_game.render(&m_renderer);
 
     // Rendering the queue
     m_window.clear();
-    m_renderer.draw(&m_window);
+    m_renderer.flush(&m_window);
     m_window.display();
 }

@@ -4,7 +4,7 @@ void Input::update(sf::Event& event)
 {
     m_buttonDown = (event.type == sf::Event::MouseButtonPressed);
 
-    if(even.type == sf::Event::MouseButtonReleased)
+    if(event.type == sf::Event::MouseButtonReleased)
     {
         // we record that the button has been released, thus it can be clicked again in the future
         m_buttonDown = false;

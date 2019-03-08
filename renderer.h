@@ -1,16 +1,22 @@
-#ifndef RENDERER
-#define RENDERER
+#ifndef RENDERER_H
+#define RENDERER_H
 
 #include <SFML/Graphics.hpp>
+#include <unordered_map>
+#include <string>
+#include <utility>
 
 class Renderer
 {
 public:
-    int init();
-    void draw(sf::RenderWindow *window);
+	void loadTextureFromFile(const std::string textureName);
+    void flush(sf::RenderWindow *window);
+
+	sf::VertexArray* getVertexArrayPointer(const std::string textureName);
+	sf::Texture* getTexture(const std::string textureName);
 
 private:
-    
+	std::unordered_map<std::string, std::pair<sf::Texture, sf::VertexArray>> m_data;
 };
 
 #endif

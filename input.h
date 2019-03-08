@@ -1,7 +1,7 @@
-#ifndef INPUT
-#define INPUT
+#ifndef INPUT_H
+#define INPUT_H
 
-#include <SFML/Event.hpp>
+#include <SFML\Window\Event.hpp>
 
 class Input
 {
