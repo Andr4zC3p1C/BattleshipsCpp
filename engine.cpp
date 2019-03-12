@@ -1,11 +1,13 @@
 #include "engine.h"
 
-int Engine::init(const std::string windowTitle, const int width, const int height)
+int Engine::init(const std::string windowTitle, int width, int height, int gridSize, int numberOfShips, int shipSize, int numberOfInitialShots)
 {
     m_window.create(sf::VideoMode(width, height), windowTitle);
     m_window.setVerticalSyncEnabled(true); // This means that the window will refresh the rendering buffers at the monitor's refresh rate. Prevents tearing and similar issues.
     m_width = width;
     m_height = height;
+
+	m_game.init(gridSize, gridSize, numberOfShips, shipSize, numberOfInitialShots, &m_renderer);
 
     return 0;
 }
@@ -42,11 +44,13 @@ void Engine::update()
 
 void Engine::render()
 {
+    m_window.clear();
+
     // Setting up the rendering queue
-    m_game.render(&m_renderer);
+    m_game.render(&m_renderer, &m_window);
 
     // Rendering the queue
-    m_window.clear();
     m_renderer.flush(&m_window);
     m_window.display();
+	m_renderer.clear();
 }

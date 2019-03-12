@@ -7,17 +7,44 @@
 int Game::init(int gridWidth, int gridHeight, int numberOfInitialShips, int shipLength, int numberOfInitialShots, Renderer *renderer)
 {
 	// Loading all the textures for the renderer; file names hardcoded into the source code directly here in function calls: (FOR NOW JUST RANDOM TEST TEXTURES THAT WONT WORK CUZ THEY AINT THERE)
-	/*
 	renderer->loadTextureFromFile("sea");
-	renderer->loadTextureFromFile("splah");
-	renderer->loadTextureFromFile("explosion");
-	*/
+	renderer->loadTextureFromFile("miss");
+	renderer->loadTextureFromFile("hit");
+
+	// Initilaizing the sprites
+	m_hit.init(TILE_SIZE, TILE_SIZE, "hit", renderer);
+	m_miss.init(TILE_SIZE, TILE_SIZE, "miss", renderer);
+	m_sea.init(TILE_SIZE, TILE_SIZE, "sea", renderer);
+
+	// Initializing the text objects
+	sf::Font font;
+	if(!font.loadFromFile("res/arial.ttf"))
+	{
+		return 1;
+	}
+
+	m_shotsLeftText.setFont(font);
+	m_shotsLeftText.setCharacterSize(25);
+
+	m_shipsLeftText.setFont(font);
+	m_shipsLeftText.setCharacterSize(25);
+
+	m_restartButtonText.setFont(font);
+	m_restartButtonText.setString("RESTART");
+	m_restartButtonText.setCharacterSize(25);
+	m_restartButtonText.setStyle(sf::Text::Bold);
+	//m_restartButtonText.setPosition(sf::Vector2f(200, 400));
+
+	m_quitButtonText.setFont(font);
+	m_quitButtonText.setString("QUIT");
+	m_quitButtonText.setCharacterSize(25);
+	m_quitButtonText.setStyle(sf::Text::Bold);
 
     // Initializes the random number generator of the standard C library STD; we use time(0), so that each time the game is ran, the seed for the generator is different, since time is different
     srand(time(0));
 
     // Initializes the grid
-    m_grid = (int*)malloc(gridWidth*gridHeight*sizeof(unsigned char));
+    m_grid = (int*)malloc(gridWidth*gridHeight*sizeof(int));
     m_width = gridWidth;
     m_height = gridHeight;
 
@@ -25,8 +52,6 @@ int Game::init(int gridWidth, int gridHeight, int numberOfInitialShips, int ship
     m_numberOfInitialShips = numberOfInitialShips;
     m_numberOfInitialShots = numberOfInitialShots;
     m_shipLength = shipLength;
-
-    // Loads the textures from files
 
     start();
 
@@ -43,12 +68,6 @@ void Game::update(bool& running, Input& input)
             // Testing if it works like we want: (WORKS PERFECTLY!)
 			std::cout << "Click!\n";
         }
-
-		if (input.isButtonDown())
-		{
-			// To see the difference between click and if we don't implement the click method:
-			std::cout << "Down!\n"; // (You can see tha there are many more Down!-s as there are Click!-s, which would be a problem as too many shots would be fired!)
-		}
     }
     else
     {
@@ -56,13 +75,19 @@ void Game::update(bool& running, Input& input)
     }
 }
 
-void Game::render(Renderer *renderer)
+void Game::render(Renderer *renderer, sf::RenderWindow *window)
 {
     if(!m_gameOver)
     {
         // Rendering the grid
+		for (int x=0; x < m_width; x++)
+			for (int y = 0; y < m_height; y++)
+			{
+				m_sea.draw(x*TILE_SIZE, y*TILE_SIZE, renderer);
+			}
 
         // Rendering the shots left text
+		
 
         // Rendering the hits text
     }
@@ -76,6 +101,8 @@ void Game::render(Renderer *renderer)
 
         // Rendering the quit button
     }
+
+	window->draw(m_restartButtonText);
 }
 
 void Game::start()
@@ -88,10 +115,11 @@ void Game::start()
     for(int x = 0; x < m_width; x++)
         for(int y = 0; y < m_height; y++)
         {
-            m_grid[x + y*m_height] = SEA;
+            m_grid[x + y*m_width] = SEA;
         }
 
     generateShipsOnGrid();
+
 }
 
 void Game::generateShipsOnGrid()
@@ -169,4 +197,9 @@ bool Game::shipPositionValid(int& x, int& y,int& direction)
     }
 
     return true;
+}
+
+Game::~Game()
+{
+	free(m_grid);
 }

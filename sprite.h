@@ -10,6 +10,7 @@ class Sprite
 public:
 	void init(int width, int height, const std::string textureName, Renderer *renderer);
 	void draw(Renderer *renderer);
+	void draw(float x, float y, Renderer *renderer);
 
 	void setPosition(sf::Vector2f& pos);
 	sf::Vector2f& getPosition();

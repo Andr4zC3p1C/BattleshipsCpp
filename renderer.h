@@ -11,6 +11,7 @@ class Renderer
 public:
 	void loadTextureFromFile(const std::string textureName);
     void flush(sf::RenderWindow *window);
+	void clear();
 
 	sf::VertexArray* getVertexArrayPointer(const std::string textureName);
 	sf::Texture* getTexture(const std::string textureName);

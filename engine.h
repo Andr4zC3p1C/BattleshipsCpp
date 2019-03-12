@@ -12,7 +12,7 @@
 class Engine
 {
 public:
-    int init(const std::string windowTitle, const int width, const int height); // It has return type int, so that if an error occurs while loading things, we can report
+	int init(const std::string windowTitle, int width, int height, int gridSize, int numberOfShips = 5, int shipSize = 4, int numberOfInitialShots = 25); // It has return type int, so that if an error occurs while loading things, we can report
     void run();
     
 private:

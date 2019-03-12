@@ -20,12 +20,17 @@
 #define DOWN 2
 #define RIGHT 3
 
+// Other macros
+#define TILE_SIZE 64
+
 class Game
 {
 public:
     int init(int gridWidth, int gridHeight, int numberOfInitialShips, int shipLength, int numberOfInitialShots, Renderer *renderer);
     void update(bool& running, Input& input);
-    void render(Renderer *renderer);
+    void render(Renderer *renderer, sf::RenderWindow *window);
+
+	~Game();
 
 private:
     // The grid data
@@ -42,7 +47,8 @@ private:
     int m_hits;
 
     // Sprites
-
+	Sprite m_hit, m_miss, m_sea;
+	sf::Text m_shotsLeftText, m_shipsLeftText, m_restartButtonText, m_quitButtonText;
 
     // Functions that are only relavent inside the game class
     void start();

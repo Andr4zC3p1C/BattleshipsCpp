@@ -23,6 +23,14 @@ void Sprite::draw(Renderer *renderer)
 		m_vertexArrayDrawable->append(m_spriteVertices[i]);
 }
 
+void Sprite::draw(float x, float y, Renderer *renderer)
+{
+	m_vertexArrayDrawable->append(sf::Vertex(sf::Vector2f(x, y), sf::Vector2f(0, 0)));
+	m_vertexArrayDrawable->append(sf::Vertex(sf::Vector2f(x, y + m_dimensions.y), sf::Vector2f(0, m_textureSize.y)));
+	m_vertexArrayDrawable->append(sf::Vertex(sf::Vector2f(x + m_dimensions.x, y + m_dimensions.y), sf::Vector2f(m_textureSize.x, m_textureSize.y)));
+	m_vertexArrayDrawable->append(sf::Vertex(sf::Vector2f(x + m_dimensions.x, y), sf::Vector2f(m_textureSize.x, 0)));
+}
+
 void Sprite::setPosition(sf::Vector2f& pos)
 {
 	m_pos.x = pos.x;
